@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Побач Світ — Vue.js</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1>{{ title }}</h1>
+        </header>
+
+        <main class="main-container">
+            <section class="filter-section">
+                <h2>Пошук турів</h2>
+                <div class="controls">
+                    <label>Напрямок:
+                        <select v-model="filters.destination">
+                            <option value="all">Усі країни</option>
+                            <option v-for="dest in uniqueDestinations" :key="dest" :value="dest">
+                                {{ dest }}
+                            </option>
+                        </select>
+                    </label>
+
+                    <label>Макс. ціна: {{ filters.maxPrice }} грн
+                        <input type="range" v-model.number="filters.maxPrice" min="10000" max="60000" step="1000">
+                    </label>
+                </div>
+            </section>
+
+            <div class="gallery">
+                <tour-card 
+                    v-for="tour in filteredTours" 
+                    :key="tour.id" 
+                    :tour="tour"
+                ></tour-card>
+                
+                <div v-if="filteredTours.length === 0" class="no-results">
+                    Турів не знайдено.
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
